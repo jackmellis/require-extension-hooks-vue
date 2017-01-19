@@ -1,0 +1,22 @@
+{
+  "name": "require-extension-hooks-vue",
+  "version": "0.1.0",
+  "description": "Simple parser for vue files",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jackmellis/require-extension-hooks-vue.git"
+  },
+  "author": "Jack Ellis",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jackmellis/require-extension-hooks-vue/issues"
+  },
+  "homepage": "https://github.com/jackmellis/require-extension-hooks-vue#readme",
+  "peerDependencies" : {
+    "require-extension-hooks" : "0.x"
+  }
+}
