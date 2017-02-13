@@ -4,8 +4,14 @@ module.exports = function ({content, filename, sourceMap}) {
     return content;
   }
 
-  let scriptPart = content.substring(content.indexOf('<script>')+8, content.indexOf('</script>'));
-  let templatePart = content.substring(content.indexOf('<template>')+10, content.indexOf('</template>'));
+  let startOfScript = content.indexOf('<script>') + 8;
+  let endOfScript = content.lastIndexOf('</script>');
+
+  let startOfTemplate = content.indexOf('<template>') + 10;
+  let endOfTemplate = content.lastIndexOf('</template>');
+
+  let scriptPart = content.substring(startOfScript, endOfScript);
+  let templatePart = content.substring(startOfTemplate, endOfTemplate);
 
   let whitespaces = /^[\n\r]/;
   while (scriptPart.match(whitespaces)){
