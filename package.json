@@ -16,7 +16,11 @@
     "url": "https://github.com/jackmellis/require-extension-hooks-vue/issues"
   },
   "homepage": "https://github.com/jackmellis/require-extension-hooks-vue#readme",
-  "peerDependencies" : {
-    "require-extension-hooks" : "0.x"
+  "peerDependencies": {
+    "require-extension-hooks": "0.x"
+  },
+  "dependencies": {
+    "vue-template-compiler": "^2.2.0",
+    "vue-template-es2015-compiler": "^1.5.0"
   }
 }
