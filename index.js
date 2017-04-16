@@ -33,7 +33,7 @@ module.exports = function ({ content, filename, sourceMap }) {
     const staticRenderFns = (compiled.staticRenderFns || [])
       .map(fn => `function(){${fn}}`)
       .join(',');
-    compiledTemplate = `\n`
+    compiledTemplate = `\n;`
       + transpile(`(module.exports.default || module.exports).render=${renderFn};`)
       + '\n'
       + transpile(`(module.exports.default || module.exports).staticRenderFns = [${staticRenderFns}];`)
