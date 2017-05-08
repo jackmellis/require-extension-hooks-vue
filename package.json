@@ -1,10 +1,24 @@
 {
   "name": "require-extension-hooks-vue",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Simple server parser for .vue files",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "ava"
+  },
+  "ava": {
+    "files": [
+      "spec/**/*.spec.js"
+    ],
+    "source": [
+      "index.js"
+    ],
+    "require": [
+      "./spec/helpers/setup.js"
+    ],
+    "verbose": false,
+    "concurrency": 8,
+    "timeout": "240s"
   },
   "repository": {
     "type": "git",
@@ -22,5 +36,13 @@
   "dependencies": {
     "vue-template-compiler": "^2.2.0",
     "vue-template-es2015-compiler": "^1.5.0"
+  },
+  "devDependencies": {
+    "ava": "^0.19.1",
+    "browser-env": "^2.0.31",
+    "require-extension-hooks": "^0.2.0",
+    "require-extension-hooks-babel": "^0.1.0",
+    "sinon": "^2.2.0",
+    "vue": "^2.3.2"
   }
 }

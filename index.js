@@ -1,14 +1,14 @@
 const compiler = require('vue-template-compiler');
 const transpile = require('vue-template-es2015-compiler');
 
-module.exports = function ({ content, filename, sourceMap }) {
-  // No <script> - either already done, or not a proper vue file
-  if (content.indexOf('<script>') < 0) {
-    return content;
-  }
+const exportsTarget = '((module.exports.default || module.exports).options || module.exports.default || module.exports)';
 
+module.exports = function ({ content, filename, sourceMap }) {
   const startOfScript = content.indexOf('<script>') + 8;
   const endOfScript = content.lastIndexOf('</script>');
+  if (startOfScript < 8 || endOfScript < 0 || endOfScript < startOfScript){
+    throw new Error('Unable to read ' + filename + ': could not find a valid <script> tag');
+  }
   let scriptPart = content.substring(startOfScript, endOfScript);
 
   let whitespaces = /^[\n\r]/;
@@ -34,10 +34,10 @@ module.exports = function ({ content, filename, sourceMap }) {
       .map(fn => `function(){${fn}}`)
       .join(',');
     compiledTemplate = `\n;`
-      + transpile(`(module.exports.default || module.exports).render=${renderFn};`)
+      + transpile(`${exportsTarget}.render=${renderFn};`)
       + '\n'
-      + transpile(`(module.exports.default || module.exports).staticRenderFns = [${staticRenderFns}];`)
-      + `\n(module.exports.default || module.exports).render._withStripped = true;`;
+      + transpile(`${exportsTarget}.staticRenderFns = [${staticRenderFns}];`)
+      + `\n${exportsTarget}.render._withStripped = true;`;
   }
   const result = `${scriptPart}${compiledTemplate}`;
 
@@ -55,7 +55,7 @@ module.exports = function ({ content, filename, sourceMap }) {
       generated: {
         line: x + 1,
         column: 0,
-      },
+      }
     });
   }
 
