@@ -1,7 +1,6 @@
 const compiler = require('vue-template-compiler');
 const transpile = require('vue-template-es2015-compiler');
 const parse5 = require('parse5');
-const consolidate = require('consolidate');
 const spawnSync = require('child_process').spawnSync;
 const pathJoin = require('path').join;
 
