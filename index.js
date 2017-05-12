@@ -1,14 +1,20 @@
 const compiler = require('vue-template-compiler');
 const transpile = require('vue-template-es2015-compiler');
+const parse5 = require('parse5');
+const spawnSync = require('child_process').spawnSync;
+const pathJoin = require('path').join;
 
 const exportsTarget = '((module.exports.default || module.exports).options || module.exports.default || module.exports)';
 
 module.exports = function ({ content, filename, sourceMap }) {
-  const startOfScript = content.indexOf('<script>') + 8;
-  const endOfScript = content.lastIndexOf('</script>');
-  if (startOfScript < 8 || endOfScript < 0 || endOfScript < startOfScript){
+  const documentFragment = parse5.parseFragment(content, {locationInfo: true});
+  const scriptFrag = documentFragment.childNodes.find(node => node.tagName === 'script');
+
+  if(!scriptFrag) {
     throw new Error('Unable to read ' + filename + ': could not find a valid <script> tag');
   }
+  const startOfScript = scriptFrag.__location.startTag.endOffset;
+  const endOfScript = scriptFrag.__location.endTag.startOffset;
   let scriptPart = content.substring(startOfScript, endOfScript);
 
   let whitespaces = /^[\n\r]/;
@@ -24,10 +30,28 @@ module.exports = function ({ content, filename, sourceMap }) {
   // This avoids the need for a runtime compilation
   // ES2015 template compiler to support es2015 features
   let compiledTemplate = '';
-  const startOfTemplate = content.indexOf('<template>');
-  const endOfTemplate = content.lastIndexOf('</template>');
-  if (startOfTemplate >= 0 && endOfTemplate >= 0) {
-    const templatePart = content.substring(startOfTemplate + 10, endOfTemplate);
+  const templateFrag = documentFragment.childNodes.find(node => node.tagName === 'template');
+  if (templateFrag) {
+    const startOfTemplate = templateFrag.__location.startTag.endOffset;
+    const endOfTemplate = templateFrag.__location.endTag.startOffset;
+    let templatePart = content.substring(startOfTemplate, endOfTemplate);
+
+    const templateAttrLang = templateFrag.attrs.find(attr => attr.name === 'lang');
+    if(templateAttrLang && templateAttrLang.value.toLowerCase() !== 'html') {
+      const renderedResult = spawnSync(
+        process.execPath,
+        [
+          pathJoin(__dirname, './renderTemplate.js'),
+          templateAttrLang.value,
+          templatePart
+        ],
+        {encoding: 'utf-8'});
+      if(renderedResult.stderr) {
+        throw new Error(renderedResult.stderr);
+      }
+      templatePart = renderedResult.stdout;
+    }
+
     const compiled = compiler.compile(templatePart, { preserveWhitespace: false });
     const renderFn = `function(){${compiled.render}}`;
     const staticRenderFns = (compiled.staticRenderFns || [])
