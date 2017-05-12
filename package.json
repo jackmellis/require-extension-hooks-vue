@@ -34,12 +34,15 @@
     "require-extension-hooks": "0.x"
   },
   "dependencies": {
+    "consolidate": "^0.14.5",
+    "parse5": "^3.0.2",
     "vue-template-compiler": "^2.2.0",
     "vue-template-es2015-compiler": "^1.5.0"
   },
   "devDependencies": {
     "ava": "^0.19.1",
     "browser-env": "^2.0.31",
+    "pug": "^2.0.0-rc.1",
     "require-extension-hooks": "^0.2.0",
     "require-extension-hooks-babel": "^0.1.0",
     "sinon": "^2.2.0",
