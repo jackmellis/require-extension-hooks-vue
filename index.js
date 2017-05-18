@@ -7,7 +7,6 @@ const {readFileSync} = require('fs');
 const exportsTarget = '((module.exports.default || module.exports).options || module.exports.default || module.exports)';
 
 module.exports = function ({ content, filename }) {
-  debugger;
   function retrieveContent(config) {
     if (config.content){
       return config.content;
