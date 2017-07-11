@@ -3,10 +3,13 @@ const transpile = require('vue-template-es2015-compiler');
 const {spawnSync} = require('child_process');
 const {join, dirname} = require('path');
 const {readFileSync} = require('fs');
-
 const exportsTarget = '((module.exports.default || module.exports).options || module.exports.default || module.exports)';
+const defaultConfig = {
+  transpileTemplates : true
+};
+let globalConfig = defaultConfig;
 
-module.exports = function ({ content, filename }) {
+module.exports = function ({ content, filename, hook }) {
   function retrieveContent(config) {
     if (config.content){
       return config.content;
@@ -23,8 +26,10 @@ module.exports = function ({ content, filename }) {
   if(!script) {
     throw new Error('Unable to read ' + filename + ': could not find a valid <script> tag');
   }
-  // let scriptPart = script.content;
   let scriptPart = retrieveContent(script);
+  if (script.attrs.lang && !['js', 'javascript'].includes(script.attrs.lang.toLowerCase())){
+    scriptPart = hook(script.attrs.lang, scriptPart);
+  }
 
   // If there is a template then compile to render functions
   // This avoids the need for a runtime compilation
@@ -35,18 +40,22 @@ module.exports = function ({ content, filename }) {
 
     let lang = template.attrs.lang;
     if(lang && lang.toLowerCase() !== 'html') {
-      const renderedResult = spawnSync(
-        process.execPath,
-        [
-          join(__dirname, './renderTemplate.js'),
-          lang,
-          templatePart
-        ],
-        {encoding: 'utf-8'});
-      if(renderedResult.stderr) {
-        throw new Error(renderedResult.stderr);
+      if (globalConfig.transpileTemplates){
+        const renderedResult = spawnSync(
+          process.execPath,
+          [
+            join(__dirname, './renderTemplate.js'),
+            lang,
+            templatePart
+          ],
+          {encoding: 'utf-8'});
+        if(renderedResult.stderr) {
+          throw new Error(renderedResult.stderr);
+        }
+        templatePart = renderedResult.stdout;
+      }else{
+        templatePart = hook(lang, templatePart);
       }
-      templatePart = renderedResult.stdout;
     }
 
     const compiled = compiler.compile(templatePart, { preserveWhitespace: false });
@@ -63,4 +72,7 @@ module.exports = function ({ content, filename }) {
   const result = `${scriptPart}\n${compiledTemplate}`;
 
   return { content: result };
+};
+module.exports.configure = function (config) {
+  globalConfig = Object.assign({}, defaultConfig, config);
 };
