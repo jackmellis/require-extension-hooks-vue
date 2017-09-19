@@ -32,7 +32,7 @@ module.exports = function ({ content, filename, hook }) {
       lang = lang.toLowerCase()
     }
 
-    if (lang) {
+    if (lang && !noTranspileLangs.includes(lang)) {
       content = transpileSpecial != null
         ? transpileSpecial(content, lang)
         : hook(lang, content);
