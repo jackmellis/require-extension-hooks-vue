@@ -106,7 +106,9 @@ module.exports = function ({ content, filename, hook }) {
         computedProps.push(`${exportsTarget}.computed.${moduleName} = function(){ return ${cssClassesStr}; };`)
       }
     }
-    return `\n;${exportsTarget}.computed = ${exportsTarget}.computed || {};` + computedProps.join(' ')
+    return computedProps.length > 0
+      ? `${exportsTarget}.computed = ${exportsTarget}.computed || {};` + computedProps.join(' ')
+      : ''
   }
 
   const { template, script, styles } = compiler.parseComponent(content, { pad: 'line' });
