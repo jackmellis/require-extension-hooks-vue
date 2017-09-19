@@ -3,6 +3,8 @@ const transpile = require('vue-template-es2015-compiler');
 const { spawnSync } = require('child_process');
 const { join, dirname } = require('path');
 const { readFileSync } = require('fs');
+const postcss = require('postcss')
+const postcssModules = require('postcss-modules-sync').default
 const exportsTarget = '((module.exports.default || module.exports).options || module.exports.default || module.exports)';
 const defaultConfig = {
   transpileTemplates: true
@@ -63,33 +65,56 @@ module.exports = function ({ content, filename, hook }) {
       return result.stdout;
     }
 
+    if (!template)
+      return ''
+
     // If there is a template then compile to render functions
     // This avoids the need for a runtime compilation
     // ES2015 template compiler to support es2015 features
-    let compiledTemplate = '';
-    if (template) {
-      let templatePart = retrieveAndTranspileContent(template, ['html'],
-        globalConfig.transpileTemplates ? transpileTemplateSpecial : null);
+    let content = retrieveAndTranspileContent(template, ['html'],
+      globalConfig.transpileTemplates ? transpileTemplateSpecial : null);
 
-      const compiled = compiler.compile(templatePart, { preserveWhitespace: false });
-      const renderFn = `function(){${compiled.render}}`;
-      const staticRenderFns = (compiled.staticRenderFns || [])
-        .map(fn => `function(){${fn}}`)
-        .join(',');
-      compiledTemplate = `\n;`
-        + transpile(`${exportsTarget}.render=${renderFn};`)
-        + '\n'
-        + transpile(`${exportsTarget}.staticRenderFns = [${staticRenderFns}];`)
-        + `\n${exportsTarget}.render._withStripped = true;`;
-    }
-    return compiledTemplate
+    const compiled = compiler.compile(content, { preserveWhitespace: false });
+    const renderFn = `function(){${compiled.render}}`;
+    const staticRenderFns = (compiled.staticRenderFns || [])
+      .map(fn => `function(){${fn}}`)
+      .join(',');
+    return `\n;`
+      + transpile(`${exportsTarget}.render=${renderFn};`)
+      + '\n'
+      + transpile(`${exportsTarget}.staticRenderFns = [${staticRenderFns}];`)
+      + `\n${exportsTarget}.render._withStripped = true;`;
   }
 
-  const { template, script } = compiler.parseComponent(content, { pad: 'line' });
-  let scriptPart = getScriptPart(script);
-  let compliledTemplate = getCompiledTemplate(template)
+  function getCssModuleComputedProps(styles) {
+    if (!styles)
+      return ''
 
-  const result = `${scriptPart}\n${compliledTemplate}`;
+    let computedProps = []
+    for (let i = 0; i < styles.length; i++) {
+      const style = styles[i];
+      if (style.module !== undefined && style.module !== false) {
+        const moduleName = typeof style.module === 'string' ? style.module : '$style';
+        const content = retrieveAndTranspileContent(style, ['css']);
+        let cssClasses;
+        postcss(postcssModules(
+          {
+            generateScopedName: moduleName + '-[local]',
+            getJSON: json => { cssClasses = json; }
+          })).process(content).css;
+        const cssClassesStr = JSON.stringify(cssClasses)
+        computedProps.push(`${exportsTarget}.computed.${moduleName} = function(){ return ${cssClassesStr}; };`)
+      }
+    }
+    return `\n;${exportsTarget}.computed = ${exportsTarget}.computed || {};` + computedProps.join(' ')
+  }
+
+  const { template, script, styles } = compiler.parseComponent(content, { pad: 'line' });
+  const scriptPart = getScriptPart(script);
+  const compliledTemplate = getCompiledTemplate(template)
+  const cssModulesComputedProps = getCssModuleComputedProps(styles)
+
+  const result = `${scriptPart}\n${compliledTemplate}\n${cssModulesComputedProps}`;
   return { content: result };
 };
 

@@ -13,6 +13,13 @@ test('imports component with external js', t => {
   t.is(typeof c.data, 'function');
 });
 
+test('imports component with external css-module', t => {
+  t.is(c.name, 'external');
+  t.is(typeof c.computed, 'object');
+  t.is(typeof c.computed.$style, 'function');
+  t.is(c.computed.$style().color, '-style-color');
+});
+
 test('correctly renders component', t => {
   let vm;
   t.notThrows(() => vm = new Vue(c));
