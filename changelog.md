@@ -1,5 +1,8 @@
 # Change Log
 
+## 0.4.1
+- Support for css modules [18](https://github.com/jackmellis/require-extension-hooks-vue/issues/18)
+
 ## 0.4.0
 - Added a configuration option to transpile non-html templates (true by default). This allows you to disable the default behaviour in favour of adding custom hooks. `hooks('vue').plugin('vue', { transpileTemplates : false }); hooks('pug').push(...)` [15](https://github.com/jackmellis/require-extension-hooks-vue/issues/15)
 - Support for alternate script languages (i.e. where `<script lang="ts">`). When lang is set, it will look for a hook with the same extension.
