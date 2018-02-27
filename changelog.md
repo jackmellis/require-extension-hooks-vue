@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.0
+- Register - lets you register this hook by simply requiring a file i.e. `mocha --require require-extension-hooks-vue/register`
+- Source Map support for error stack traces
+
 ## 0.4.2
 - Non-self-closing external script tags (i.e. `<script src="foo"></script>`) failed to load
 

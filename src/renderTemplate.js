@@ -1,13 +1,13 @@
-// const spawnSync = require('child_process').spawnSync;
-
 const cons = require('consolidate');
+const lang = process.argv[2];
+const content = process.argv[3];
 
-if(!cons[process.argv[2]]) {
-  throw new Error('Template language "'+ process.argv[2] + '" can\'t be compiled by Consolidate.js.');
+if (!cons[lang]) {
+  throw new Error(`Template language "${lang}" can't be compiled by Consolidate.js`);
 }
 
-cons[process.argv[2]].render(process.argv[3], {}).then(function (result) {
-  process.stdout.write(result);
-}, function (err) {
-  throw err;
-});
+cons[lang]
+  .render(content, {})
+  .then((result) => {
+    process.stdout.write(result);
+  }, (err) => { throw err; });

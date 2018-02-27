@@ -43,3 +43,28 @@ hooks('ts').push(function({content}){
 });
 ```
 *There will likely be additional hook libraries for script languages available soon*
+
+## Register
+You can automatically register the vue hook using the register file:
+```js
+require('require-extension-hooks-vue/register');
+```
+Which means you can register the module from cli tools:
+```
+mocha --require require-extension-hooks-vue/register
+```
+
+## Configuration
+Set configuration options using the `configure` method:
+```js
+const plugin = require('require-extension-hooks-vue');
+plugin.configure({ transpileTemplates: false });
+```
+
+### transpileTemplates
+`true`  
+whether or not to automatically transpile templates that have a `lang` attribute
+
+### sourceMaps
+`true`  
+whether or not to set up source map support. This utilises the `source-map-support` library.
