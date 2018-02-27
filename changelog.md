@@ -1,5 +1,8 @@
 # Change Log
 
+## 0.4.2
+- Non-self-closing external script tags (i.e. `<script src="foo"></script>`) failed to load
+
 ## 0.4.1
 - Support for css modules [18](https://github.com/jackmellis/require-extension-hooks-vue/issues/18)
 

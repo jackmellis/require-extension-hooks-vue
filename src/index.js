@@ -12,13 +12,12 @@ const defaultConfig = {
 let globalConfig = defaultConfig;
 
 module.exports = function ({ content, filename, hook }) {
-
   function retrieveContent(config) {
-    if (config.content) {
-      return config.content;
-    } else if (config.attrs.src) {
-      let fullPath = join(dirname(filename), config.attrs.src);
+    if (config.attrs.src) {
+      const fullPath = join(dirname(filename), config.attrs.src);
       return readFileSync(fullPath, 'utf8');
+    } else if (config.content) {
+      return config.content;
     } else {
       return '';
     }
@@ -37,6 +36,7 @@ module.exports = function ({ content, filename, hook }) {
         ? transpileSpecial(content, lang)
         : hook(lang, content);
     }
+
     return content
   }
 
@@ -57,11 +57,13 @@ module.exports = function ({ content, filename, hook }) {
           lang,
           content
         ],
-        { encoding: 'utf-8' });
+        { encoding: 'utf-8' }
+      );
 
       if (result.stderr) {
         throw new Error(result.stderr);
       }
+
       return result.stdout;
     }
 
@@ -71,7 +73,7 @@ module.exports = function ({ content, filename, hook }) {
     // If there is a template then compile to render functions
     // This avoids the need for a runtime compilation
     // ES2015 template compiler to support es2015 features
-    let content = retrieveAndTranspileContent(template, ['html'],
+    const content = retrieveAndTranspileContent(template, ['html'],
       globalConfig.transpileTemplates ? transpileTemplateSpecial : null);
 
     const compiled = compiler.compile(content, { preserveWhitespace: false });
@@ -90,11 +92,11 @@ module.exports = function ({ content, filename, hook }) {
     if (!styles)
       return ''
 
-    let computedProps = []
+    const computedProps = []
     for (let i = 0; i < styles.length; i++) {
       const style = styles[i];
       if (style.module !== undefined && style.module !== false) {
-        const moduleName = typeof style.module === 'string' ? style.module : '$style';
+        const moduleName = (typeof style.module) === 'string' ? style.module : '$style';
         const content = retrieveAndTranspileContent(style, ['css']);
         let cssClasses;
         postcss(postcssModules(
@@ -106,9 +108,9 @@ module.exports = function ({ content, filename, hook }) {
         computedProps.push(`${exportsTarget}.computed.${moduleName} = function(){ return ${cssClassesStr}; };`)
       }
     }
-    return computedProps.length > 0
+    return (computedProps.length > 0)
       ? `${exportsTarget}.computed = ${exportsTarget}.computed || {};` + computedProps.join(' ')
-      : ''
+      : '';
   }
 
   const { template, script, styles } = compiler.parseComponent(content, { pad: 'line' });

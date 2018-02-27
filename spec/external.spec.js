@@ -2,6 +2,7 @@ import test from 'ava';
 import Vue from 'vue';
 import c from './vue-files/external';
 import c2 from './vue-files/external/pug';
+import c3 from './vue-files/non-self-closing';
 
 test('imports component with external html', t => {
   t.true(c !== undefined);
@@ -11,6 +12,11 @@ test('imports component with external html', t => {
 test('imports component with external js', t => {
   t.is(c.name, 'external');
   t.is(typeof c.data, 'function');
+});
+
+test('imports component with non-self-closing tags', t => {
+  t.is(c3.name, 'external');
+  t.is(typeof c3.data, 'function');
 });
 
 test('imports component with external css-module', t => {
