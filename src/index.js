@@ -20,7 +20,7 @@ const defaultConfig = {
   sourceMaps: true,
 };
 
-let globalConfig = defaultConfig;
+let globalConfig = Object.assign({}, defaultConfig);
 
 let sourceMapSupport = false;
 
