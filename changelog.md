@@ -1,5 +1,8 @@
 # Change Log
 
+## 1.0.1
+- Don't mutate the defualt config object [#28](https://github.com/jackmellis/require-extension-hooks-vue/pull/28)
+
 ## 1.0.0
 - Register - lets you register this hook by simply requiring a file i.e. `mocha --require require-extension-hooks-vue/register`
 - Source Map support for error stack traces
