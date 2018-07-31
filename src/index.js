@@ -174,7 +174,13 @@ function processCustomBlocks (
 ) {
   if (!customBlocks)
     return '';
-  return customBlocks.map(customBlock => hook('vue-block-' + customBlock.type, customBlock.content)).join('\n');
+  return customBlocks.map(customBlock => {
+    try {
+      return hook('vue-block-' + customBlock.type, customBlock.content);
+    } catch (err) {
+      return '';
+    }
+  }).join('\n');
 }
 
 module.exports = ({ content, filename, hook }) => {
