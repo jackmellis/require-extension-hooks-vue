@@ -167,11 +167,22 @@ function getCssModuleComputedProps(
   return `${exportsTarget}.computed = ${exportsTarget}.computed || {}; ${computedProps.join(' ')}`;
 }
 
+function processCustomBlocks (
+  filename,
+  hook,
+  customBlocks
+) {
+  if (!customBlocks)
+    return '';
+  return customBlocks.map(customBlock => hook('vue-block-' + customBlock.type, customBlock.content)).join('\n');
+}
+
 module.exports = ({ content, filename, hook }) => {
   const {
     template,
     script,
     styles,
+    customBlocks,
   } = compiler.parseComponent(content, { pad: 'line' });
 
   if (globalConfig.sourceMaps && sourceMapSupport === false) {
@@ -187,7 +198,7 @@ module.exports = ({ content, filename, hook }) => {
     script
   );
 
-  const compliledTemplate = getCompiledTemplate(
+  const compiledTemplate = getCompiledTemplate(
     filename,
     hook,
     template
@@ -199,10 +210,17 @@ module.exports = ({ content, filename, hook }) => {
     styles
   );
 
+  const processedCustomBlocks = processCustomBlocks(
+    filename,
+    hook,
+    customBlocks
+  );
+
   const result = [
     scriptPart,
-    compliledTemplate,
+    compiledTemplate,
     cssModulesComputedProps,
+    processedCustomBlocks,
   ].join('\n');
 
   return { content: result };
