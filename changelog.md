@@ -1,5 +1,8 @@
 # Change Log
 
+## 1.1.0
+- Components without a `<script>` are now imported and treated as functional components [#29](https://github.com/jackmellis/require-extension-hooks-vue/issues/29)
+
 ## 1.0.1
 - Don't mutate the defualt config object [#28](https://github.com/jackmellis/require-extension-hooks-vue/pull/28)
 

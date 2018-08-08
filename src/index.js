@@ -65,7 +65,7 @@ function getScriptPart(
   script
 ) {
   if (!script) {
-    throw new Error(`Unable to read ${filename}: could not find a valid <script> tag`);
+    return 'module.exports = { functional: true }';
   }
   return retrieveAndTranspileContent(
     filename,
