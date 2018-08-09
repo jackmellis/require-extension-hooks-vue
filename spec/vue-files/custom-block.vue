@@ -4,6 +4,6 @@
 <script>
 export default {};
 </script>
-<json>
+<json-name>
 { "value": "custom" }
-</json>
+</json-name>

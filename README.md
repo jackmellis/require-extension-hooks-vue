@@ -1,12 +1,12 @@
 # require-extension-hooks-vue
-Simple parser for vue files
+Simple parser for vue files  
 
 Using require-extension-hooks you can load *.vue* files in node, extremely helpful for browserless unit testing.
 
-## Installation
-`npm install require-extension-hooks require-extension-hooks-vue --save-dev`
+## Installation  
+`npm install require-extension-hooks require-extension-hooks-vue --save-dev`  
 
-## Usage
+## Usage  
 ```javascript
 const hooks = require('require-extension-hooks');
 hooks('vue').plugin('vue');
@@ -42,26 +42,29 @@ hooks('ts').push(function({content}){
 /* transpile your script code here */
 });
 ```
-
-For custom blocks in `.vue` files, add other require hooks for the name of the blocks,
-prefixed by `vue-block-`. For example, to load a custom `<json></json>` block:
-
-```javascript
-const hooks = require('require-extension-hooks');
-hooks('vue').plugin('vue');
-hooks('vue-block-json').push(({ content }) => {
-    // Strings returned here will be appended to the compiled .vue file. This should return JavaScript, in a string.
-    return '';
-});
-```
-
-You can access the exported options object using (as vue-template-compiler does itself):
-```javascript
-((module.exports.default || module.exports).options || module.exports.default || module.exports)
-```
-
-
 *There will likely be additional hook libraries for script languages available soon*
+
+## Custom Blocks
+If you have custom blocks in your `.vue` files, you can parse then using `require-extension-hooks`.
+Blocks are available by hooking to the file type `vue-block-(block name)`. The hook should return
+JavaScript code, in a string, which will be appended to the compiled `.vue` file.
+
+A helper named `COMPONENT_OPTIONS` is available in on the plugin export to allow you to modify
+the exported component options object from the `.vue` file.
+
+For example, for a `<json></json>` block to have its data available via `this.json` in the
+component, you could use a [mixin](https://vuejs.org/v2/guide/mixins.html):
+
+```javascript
+const { COMPONENT_OPTIONS } = require('require-extension-hooks-vue');
+hooks('vue-block-json').push(({ content }) =>
+    `${COMPONENT_OPTIONS}.mixins = (${COMPONENT_OPTIONS}.mixins || []).concat({
+        data: () => ({
+            json: ${JSON.parse(content)}
+        })
+    });`
+);
+```
 
 ## Register
 You can automatically register the vue hook using the register file:
@@ -81,9 +84,9 @@ plugin.configure({ transpileTemplates: false });
 ```
 
 ### transpileTemplates
-`true`
+`true`  
 whether or not to automatically transpile templates that have a `lang` attribute
 
 ### sourceMaps
-`true`
+`true`  
 whether or not to set up source map support. This utilises the `source-map-support` library.

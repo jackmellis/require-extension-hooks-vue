@@ -13,7 +13,7 @@ const transpile = require('vue-template-es2015-compiler');
 const postcss = require('postcss');
 const postcssModules = require('postcss-modules-sync').default;
 
-const exportsTarget = '((module.exports.default || module.exports).options || module.exports.default || module.exports)';
+const COMPONENT_OPTIONS = '((module.exports.default || module.exports).options || module.exports.default || module.exports)';
 
 const defaultConfig = {
   transpileTemplates: true,
@@ -123,9 +123,9 @@ function getCompiledTemplate(
 
   return [
     ';',
-    transpile(`${exportsTarget}.render=${renderFn};`),
-    transpile(`${exportsTarget}.staticRenderFns = [ ${staticRenderFns} ];`),
-    `${exportsTarget}.render._withStripped = true;`,
+    transpile(`${COMPONENT_OPTIONS}.render=${renderFn};`),
+    transpile(`${COMPONENT_OPTIONS}.staticRenderFns = [ ${staticRenderFns} ];`),
+    `${COMPONENT_OPTIONS}.render._withStripped = true;`,
   ].join('\n');
 }
 
@@ -157,14 +157,14 @@ function getCssModuleComputedProps(
         })).process(content).css;
       const cssClassesStr = JSON.stringify(cssClasses);
 
-      return `${exportsTarget}.computed.${moduleName} = function(){ return ${cssClassesStr}; };`;
+      return `${COMPONENT_OPTIONS}.computed.${moduleName} = function(){ return ${cssClassesStr}; };`;
     });
 
   if (!computedProps.length) {
     return '';
   }
 
-  return `${exportsTarget}.computed = ${exportsTarget}.computed || {}; ${computedProps.join(' ')}`;
+  return `${COMPONENT_OPTIONS}.computed = ${COMPONENT_OPTIONS}.computed || {}; ${computedProps.join(' ')}`;
 }
 
 function processCustomBlocks (
@@ -235,3 +235,5 @@ module.exports = ({ content, filename, hook }) => {
 module.exports.configure = (config) => {
   globalConfig = Object.assign({}, defaultConfig, globalConfig, config);
 };
+
+module.exports.COMPONENT_OPTIONS = COMPONENT_OPTIONS;
