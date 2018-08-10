@@ -4,7 +4,7 @@ import Vue from 'vue';
 import component from './vue-files/no-template';
 
 test.beforeEach(t => {
-  t.context.sinon = Sinon.sandbox.create();
+  t.context.sinon = Sinon.createSandbox();
 });
 test.afterEach(t => {
   t.context.sinon.restore();
