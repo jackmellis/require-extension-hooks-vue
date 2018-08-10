@@ -13,7 +13,7 @@ const transpile = require('vue-template-es2015-compiler');
 const postcss = require('postcss');
 const postcssModules = require('postcss-modules-sync').default;
 
-const exportsTarget = '((module.exports.default || module.exports).options || module.exports.default || module.exports)';
+const COMPONENT_OPTIONS = '((module.exports.default || module.exports).options || module.exports.default || module.exports)';
 
 const defaultConfig = {
   transpileTemplates: true,
@@ -123,9 +123,9 @@ function getCompiledTemplate(
 
   return [
     ';',
-    transpile(`${exportsTarget}.render=${renderFn};`),
-    transpile(`${exportsTarget}.staticRenderFns = [ ${staticRenderFns} ];`),
-    `${exportsTarget}.render._withStripped = true;`,
+    transpile(`${COMPONENT_OPTIONS}.render=${renderFn};`),
+    transpile(`${COMPONENT_OPTIONS}.staticRenderFns = [ ${staticRenderFns} ];`),
+    `${COMPONENT_OPTIONS}.render._withStripped = true;`,
   ].join('\n');
 }
 
@@ -157,14 +157,30 @@ function getCssModuleComputedProps(
         })).process(content).css;
       const cssClassesStr = JSON.stringify(cssClasses);
 
-      return `${exportsTarget}.computed.${moduleName} = function(){ return ${cssClassesStr}; };`;
+      return `${COMPONENT_OPTIONS}.computed.${moduleName} = function(){ return ${cssClassesStr}; };`;
     });
 
   if (!computedProps.length) {
     return '';
   }
 
-  return `${exportsTarget}.computed = ${exportsTarget}.computed || {}; ${computedProps.join(' ')}`;
+  return `${COMPONENT_OPTIONS}.computed = ${COMPONENT_OPTIONS}.computed || {}; ${computedProps.join(' ')}`;
+}
+
+function processCustomBlocks (
+  filename,
+  hook,
+  customBlocks
+) {
+  if (!customBlocks)
+    return '';
+  return customBlocks.map(customBlock => {
+    try {
+      return hook('vue-block-' + customBlock.type, customBlock.content);
+    } catch (err) {
+      return '';
+    }
+  }).join('\n');
 }
 
 module.exports = ({ content, filename, hook }) => {
@@ -172,6 +188,7 @@ module.exports = ({ content, filename, hook }) => {
     template,
     script,
     styles,
+    customBlocks,
   } = compiler.parseComponent(content, { pad: 'line' });
 
   if (globalConfig.sourceMaps && sourceMapSupport === false) {
@@ -187,7 +204,7 @@ module.exports = ({ content, filename, hook }) => {
     script
   );
 
-  const compliledTemplate = getCompiledTemplate(
+  const compiledTemplate = getCompiledTemplate(
     filename,
     hook,
     template
@@ -199,10 +216,17 @@ module.exports = ({ content, filename, hook }) => {
     styles
   );
 
+  const processedCustomBlocks = processCustomBlocks(
+    filename,
+    hook,
+    customBlocks
+  );
+
   const result = [
     scriptPart,
-    compliledTemplate,
+    compiledTemplate,
     cssModulesComputedProps,
+    processedCustomBlocks,
   ].join('\n');
 
   return { content: result };
@@ -211,3 +235,5 @@ module.exports = ({ content, filename, hook }) => {
 module.exports.configure = (config) => {
   globalConfig = Object.assign({}, defaultConfig, globalConfig, config);
 };
+
+module.exports.COMPONENT_OPTIONS = COMPONENT_OPTIONS;
