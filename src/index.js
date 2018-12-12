@@ -8,8 +8,11 @@ const {
 const {
   spawnSync,
 } = require('child_process');
+const {
+  parse,
+  compileTemplate,
+} = require('@vue/component-compiler-utils');
 const compiler = require('vue-template-compiler');
-const transpile = require('vue-template-es2015-compiler');
 const postcss = require('postcss');
 const postcssModules = require('postcss-modules-sync').default;
 
@@ -65,7 +68,7 @@ function getScriptPart(
   script
 ) {
   if (!script) {
-    return 'module.exports = { functional: true }';
+    return '';
   }
   return retrieveAndTranspileContent(
     filename,
@@ -115,17 +118,22 @@ function getCompiledTemplate(
     globalConfig.transpileTemplates && transpileTemplateSpecial
   );
 
-  const compiled = compiler.compile(content, { preserveWhitespace: false });
-  const renderFn = `function(){ ${compiled.render} }`;
-  const staticRenderFns = (compiled.staticRenderFns || [])
-    .map((fn) => `function(){ ${fn} }`)
-    .join(',');
+  const isFunctional = template.attrs.functional;
+
+  const compiled = compileTemplate({
+    source: content,
+    filename,
+    compiler,
+    compilerOptions: { preserveWhitespace: false },
+    isFunctional
+  });
 
   return [
-    ';',
-    transpile(`${COMPONENT_OPTIONS}.render=${renderFn};`),
-    transpile(`${COMPONENT_OPTIONS}.staticRenderFns = [ ${staticRenderFns} ];`),
-    `${COMPONENT_OPTIONS}.render._withStripped = true;`,
+    compiled.code,
+    `;${COMPONENT_OPTIONS}.render=render;`,
+    `${COMPONENT_OPTIONS}.staticRenderFns=staticRenderFns;`,
+    `${COMPONENT_OPTIONS}._compiled = true;`,
+    isFunctional ? `${COMPONENT_OPTIONS}.functional = true;` : ''
   ].join('\n');
 }
 
@@ -172,8 +180,9 @@ function processCustomBlocks (
   hook,
   customBlocks
 ) {
-  if (!customBlocks)
+  if (!customBlocks) {
     return '';
+  }
   return customBlocks.map(customBlock => {
     try {
       return hook('vue-block-' + customBlock.type, customBlock.content);
@@ -189,7 +198,11 @@ module.exports = ({ content, filename, hook }) => {
     script,
     styles,
     customBlocks,
-  } = compiler.parseComponent(content, { pad: 'line' });
+  } = parse({
+    source: content,
+    filename,
+    compiler
+  });
 
   if (globalConfig.sourceMaps && sourceMapSupport === false) {
     require('source-map-support').install({
