@@ -40,8 +40,7 @@
     "postcss": "^7.0.0",
     "postcss-modules-sync": "^1.0.0",
     "source-map-support": "^0.5.8",
-    "vue-template-compiler": "^2.5.17",
-    "vue-template-es2015-compiler": "^1.6.0"
+    "vue-template-compiler": "^2.5.17"
   },
   "devDependencies": {
     "browser-env": "^3.2.5",
