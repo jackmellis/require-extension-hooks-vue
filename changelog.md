@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.0.0
+- Use @vue/component-compiler-utils - this offers more consistent behaviour, as well as fixing issues with functional components [#32](https://github.com/jackmellis/require-extension-hooks-vue/pull/32)
+- ^ Potentially reverses the scriptless behaviour introduced in v1.1.0
+
 ## 1.1.0
 - Components without a `<script>` are now imported and treated as functional components [#29](https://github.com/jackmellis/require-extension-hooks-vue/issues/29)
 - Support for custom code blocks [#31](https://github.com/jackmellis/require-extension-hooks-vue/pull/31)
