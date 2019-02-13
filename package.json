@@ -35,21 +35,21 @@
     "require-extension-hooks": "0.3.3"
   },
   "dependencies": {
-    "@vue/component-compiler-utils": "2.3.1",
-    "consolidate": "0.15.1",
-    "postcss": "7.0.14",
-    "postcss-modules-sync": "1.0.0",
-    "source-map-support": "0.5.10",
-    "vue-template-compiler": "2.6.6"
+    "@vue/component-compiler-utils": "^2.3.1",
+    "consolidate": "^0.15.1",
+    "postcss": "^7.0.14",
+    "postcss-modules-sync": "^1.0.0",
+    "source-map-support": "^0.5.10",
+    "vue-template-compiler": "^2.6.6"
   },
   "devDependencies": {
-    "browser-env": "3.2.5",
-    "ava": "0.25.0",
-    "eslint": "5.0.0",
-    "pug": "2.0.3",
-    "require-extension-hooks": "0.3.3",
-    "require-extension-hooks-babel": "0.1.1",
-    "sinon": "6.0.0",
-    "vue": "2.6.6"
+    "browser-env": "^3.2.5",
+    "ava": "^0.25.0",
+    "eslint": "^5.0.0",
+    "pug": "^2.0.3",
+    "require-extension-hooks": "^0.3.3",
+    "require-extension-hooks-babel": "^0.1.1",
+    "sinon": "^6.0.0",
+    "vue": "^2.6.6"
   }
 }
