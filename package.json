@@ -1,6 +1,6 @@
 {
   "name": "require-extension-hooks-vue",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Simple server parser for .vue files",
   "main": "src/index.js",
   "scripts": {
@@ -32,15 +32,15 @@
   },
   "homepage": "https://github.com/jackmellis/require-extension-hooks-vue#readme",
   "peerDependencies": {
-    "require-extension-hooks": "^0.3.0",
+    "require-extension-hooks": "^0.3.3",
     "vue-template-compiler": "2.5.x"
   },
   "dependencies": {
     "@vue/component-compiler-utils": "^2.3.1",
-    "consolidate": "^0.15.0",
-    "postcss": "^7.0.0",
+    "consolidate": "^0.15.1",
+    "postcss": "^7.0.14",
     "postcss-modules-sync": "^1.0.0",
-    "source-map-support": "^0.5.8"
+    "source-map-support": "^0.5.10"
   },
   "devDependencies": {
     "ava": "^0.25.0",
@@ -48,7 +48,7 @@
     "eslint": "^5.0.0",
     "pug": "^2.0.3",
     "require-extension-hooks": "^0.3.3",
-    "require-extension-hooks-babel": "^0.1.0",
+    "require-extension-hooks-babel": "^0.1.1",
     "sinon": "^6.0.0",
     "vue": "^2.6.10",
     "vue-template-compiler": "^2.6.10"
