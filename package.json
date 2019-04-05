@@ -1,6 +1,6 @@
 {
   "name": "require-extension-hooks-vue",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "Simple server parser for .vue files",
   "main": "src/index.js",
   "scripts": {
@@ -32,7 +32,7 @@
   },
   "homepage": "https://github.com/jackmellis/require-extension-hooks-vue#readme",
   "peerDependencies": {
-    "require-extension-hooks": "^0.3.3",
+    "require-extension-hooks": "^0.3.0",
     "vue-template-compiler": "2.5.x"
   },
   "dependencies": {

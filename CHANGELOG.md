@@ -1,5 +1,9 @@
 # Change Log
 
+## 3.0.0
+- vue-template-compiler is now a peer dependency (#35 #36)
+- compatibility with Vue 2.6
+
 ## 2.0.0
 - Use @vue/component-compiler-utils - this offers more consistent behaviour, as well as fixing issues with functional components [#32](https://github.com/jackmellis/require-extension-hooks-vue/pull/32)
 - ^ Potentially reverses the scriptless behaviour introduced in v1.1.0
