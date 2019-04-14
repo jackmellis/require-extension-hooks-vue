@@ -1,5 +1,6 @@
+[![NPM Version](https://img.shields.io/npm/v/require-extension-hooks-vue.svg)](https://www.npmjs.com/package/require-extension-hooks-vue) [![Build Status](https://travis-ci.org/vinayakkulkarni/require-extension-hooks-vue.svg?branch=travis-ci)](https://travis-ci.org/vinayakkulkarni/require-extension-hooks-vue) [![Coverage Status](https://coveralls.io/repos/github/vinayakkulkarni/require-extension-hooks-vue/badge.svg?branch=travis-ci)](https://coveralls.io/github/vinayakkulkarni/require-extension-hooks-vue?branch=travis-ci)
+
 # require-extension-hooks-vue
-[![Coverage Status](https://coveralls.io/repos/github/vinayakkulkarni/require-extension-hooks-vue/badge.svg?branch=master)](https://coveralls.io/github/vinayakkulkarni/require-extension-hooks-vue?branch=master)
 Simple parser for vue files  
 
 Using require-extension-hooks you can load *.vue* files in node, extremely helpful for browserless unit testing.
