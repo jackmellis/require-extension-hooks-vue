@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "nyc ava --tap | tap-spec",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
     "lint": "eslint src"
   },
   "ava": {
