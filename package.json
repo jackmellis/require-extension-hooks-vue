@@ -4,7 +4,7 @@
   "description": "Simple server parser for .vue files",
   "main": "src/index.js",
   "scripts": {
-    "test": "nyc ava --tap | tap-spec",
+    "test": "nyc ava --tap | tap-spec | coveralls",
     "lint": "eslint src"
   },
   "ava": {
@@ -45,14 +45,15 @@
   "devDependencies": {
     "ava": "^1.4.1",
     "browser-env": "^3.2.5",
+    "coveralls": "^3.0.3",
     "eslint": "^5.16.0",
     "nyc": "^13.3.0",
     "pug": "^2.0.3",
     "require-extension-hooks": "^0.3.3",
     "require-extension-hooks-babel": "^0.1.1",
     "sinon": "^6.0.0",
+    "tap-spec": "^5.0.0",
     "vue": "^2.6.10",
-    "vue-template-compiler": "^2.6.10",
-    "tap-spec": "^5.0.0"
+    "vue-template-compiler": "^2.6.10"
   }
 }
