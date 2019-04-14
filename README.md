@@ -1,4 +1,5 @@
 # require-extension-hooks-vue
+[![Coverage Status](https://coveralls.io/repos/github/vinayakkulkarni/require-extension-hooks-vue/badge.svg?branch=master)](https://coveralls.io/github/vinayakkulkarni/require-extension-hooks-vue?branch=master)
 Simple parser for vue files  
 
 Using require-extension-hooks you can load *.vue* files in node, extremely helpful for browserless unit testing.
