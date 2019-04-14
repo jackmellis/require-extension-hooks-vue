@@ -43,7 +43,7 @@
     "source-map-support": "^0.5.10"
   },
   "devDependencies": {
-    "ava": "^0.25.0",
+    "ava": "^1.4.1",
     "browser-env": "^3.2.5",
     "eslint": "^5.16.0",
     "pug": "^2.0.3",
