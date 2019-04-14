@@ -1,0 +1,17 @@
+{
+  "per-file": true,
+  "lines": 95,
+  "statements": 95,
+  "functions": 95,
+  "branches": 95,
+  "check-coverage": true,
+  "include": ["spec/*.js"],
+  "exclude": ["node_modules"],
+  "extension": [".js"],
+  "reporter": [
+    "lcov",
+    "text"
+  ],
+  "cache": true,
+  "all": true
+}
