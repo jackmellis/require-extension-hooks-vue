@@ -11,7 +11,7 @@
     "files": [
       "spec/**/*.spec.js"
     ],
-    "source": [
+    "sources": [
       "index.js"
     ],
     "require": [
