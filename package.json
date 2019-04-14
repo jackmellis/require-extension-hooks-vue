@@ -45,7 +45,7 @@
   "devDependencies": {
     "ava": "^0.25.0",
     "browser-env": "^3.2.5",
-    "eslint": "^5.0.0",
+    "eslint": "^5.16.0",
     "pug": "^2.0.3",
     "require-extension-hooks": "^0.3.3",
     "require-extension-hooks-babel": "^0.1.1",
