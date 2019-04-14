@@ -33,7 +33,7 @@
   "homepage": "https://github.com/jackmellis/require-extension-hooks-vue#readme",
   "peerDependencies": {
     "require-extension-hooks": "^0.3.0",
-    "vue-template-compiler": "2.5.x"
+    "vue-template-compiler": "^2.6.x"
   },
   "dependencies": {
     "@vue/component-compiler-utils": "^2.3.1",
