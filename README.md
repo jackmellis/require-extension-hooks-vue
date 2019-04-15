@@ -1,4 +1,4 @@
-[![NPM Version](https://img.shields.io/npm/v/require-extension-hooks-vue.svg)](https://www.npmjs.com/package/require-extension-hooks-vue) [![Build Status](https://travis-ci.org/vinayakkulkarni/require-extension-hooks-vue.svg?branch=travis-ci)](https://travis-ci.org/vinayakkulkarni/require-extension-hooks-vue) [![Coverage Status](https://coveralls.io/repos/github/vinayakkulkarni/require-extension-hooks-vue/badge.svg?branch=travis-ci)](https://coveralls.io/github/vinayakkulkarni/require-extension-hooks-vue?branch=travis-ci)
+[![NPM Version](https://img.shields.io/npm/v/require-extension-hooks-vue.svg)](https://www.npmjs.com/package/require-extension-hooks-vue) [![Build Status](https://travis-ci.org/jackmellis/require-extension-hooks-vue.svg?branch=master)](https://travis-ci.org/jackmellis/require-extension-hooks-vue) [![Coverage Status](https://coveralls.io/repos/github/jackmellis/require-extension-hooks-vue/badge.svg?branch=master)](https://coveralls.io/github/jackmellis/require-extension-hooks-vue?branch=master)
 
 # require-extension-hooks-vue
 Simple parser for vue files  
