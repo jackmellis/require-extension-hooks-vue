@@ -4,7 +4,7 @@
   "description": "Simple server parser for .vue files",
   "main": "src/index.js",
   "scripts": {
-    "test": "nyc ava --tap | tap-spec",
+    "test": "nyc ava --verbose --color --tap | tap-spec",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "lint": "eslint src"
   },
