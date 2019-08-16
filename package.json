@@ -4,7 +4,8 @@
   "description": "Simple server parser for .vue files",
   "main": "src/index.js",
   "scripts": {
-    "test": "nyc ava --tap | tap-spec",
+    "test": "nyc ava --verbose --color --tap | tap-spec",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
     "lint": "eslint src"
   },
   "ava": {
@@ -32,27 +33,28 @@
   },
   "homepage": "https://github.com/jackmellis/require-extension-hooks-vue#readme",
   "peerDependencies": {
-    "require-extension-hooks": "^0.3.0",
+    "require-extension-hooks": "^0.3.3",
     "vue-template-compiler": "^2.6.x"
   },
   "dependencies": {
-    "@vue/component-compiler-utils": "^2.3.1",
+    "@vue/component-compiler-utils": "^3.0.0",
     "consolidate": "^0.15.1",
-    "postcss": "^7.0.14",
+    "postcss": "^7.0.17",
     "postcss-modules-sync": "^1.0.0",
-    "source-map-support": "^0.5.10"
+    "source-map-support": "^0.5.13"
   },
   "devDependencies": {
     "ava": "^1.4.1",
-    "browser-env": "^3.2.5",
+    "browser-env": "^3.2.6",
+    "coveralls": "^3.0.6",
     "eslint": "^5.16.0",
-    "nyc": "^13.3.0",
-    "pug": "^2.0.3",
+    "nyc": "^14.1.1",
+    "pug": "^2.0.4",
     "require-extension-hooks": "^0.3.3",
-    "require-extension-hooks-babel": "^0.1.1",
-    "sinon": "^6.0.0",
+    "require-extension-hooks-babel": "^1.0.0",
+    "sinon": "^7.4.1",
+    "tap-spec": "^5.0.0",
     "vue": "^2.6.10",
-    "vue-template-compiler": "^2.6.10",
-    "tap-spec": "^5.0.0"
+    "vue-template-compiler": "^2.6.10"
   }
 }
