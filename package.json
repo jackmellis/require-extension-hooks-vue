@@ -39,20 +39,20 @@
   "dependencies": {
     "@vue/component-compiler-utils": "^3.0.0",
     "consolidate": "^0.15.1",
-    "postcss": "^7.0.16",
+    "postcss": "^7.0.17",
     "postcss-modules-sync": "^1.0.0",
-    "source-map-support": "^0.5.12"
+    "source-map-support": "^0.5.13"
   },
   "devDependencies": {
     "ava": "^1.4.1",
     "browser-env": "^3.2.6",
-    "coveralls": "^3.0.3",
+    "coveralls": "^3.0.6",
     "eslint": "^5.16.0",
     "nyc": "^14.1.1",
-    "pug": "^2.0.3",
+    "pug": "^2.0.4",
     "require-extension-hooks": "^0.3.3",
     "require-extension-hooks-babel": "^1.0.0",
-    "sinon": "^7.3.2",
+    "sinon": "^7.4.1",
     "tap-spec": "^5.0.0",
     "vue": "^2.6.10",
     "vue-template-compiler": "^2.6.10"
